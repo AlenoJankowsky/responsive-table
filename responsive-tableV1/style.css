@@ -5,9 +5,10 @@ html, body {
 .body__table {
   border-collapse: collapse;
   font-size: 20pt;
-  width: 100%;
+  width: 50%;
   height: 150px;
   position: absolute;
+  left: 15%;
   top: 35%;
 }
 

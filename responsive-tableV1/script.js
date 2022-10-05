@@ -20,7 +20,13 @@ function changeTableSize() {
     document.getElementById('body__table-id').style.width = joinedStringForWidth;
   }
   else if (heightSizeChangesPositively) {
-    let computedNewHeight = tableHeight -3;
+    let computedNewHeight = tableHeight + 3;
+    let computedNewHeightToString = computedNewHeight.toString();
+    let joinedStringForHeight = computedNewHeightToString + "px";
+    document.getElementById('body__table-id').style.height = joinedStringForHeight;
+  }
+  else if (heightSizeChangesNegatively) {
+    let computedNewHeight = tableHeight - 3;
     let computedNewHeightToString = computedNewHeight.toString();
     let joinedStringForHeight = computedNewHeightToString + "px";
     document.getElementById('body__table-id').style.height = joinedStringForHeight;

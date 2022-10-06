@@ -37,6 +37,10 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.table-container__table th:hover {
+  cursor: pointer;
+}
+
 .table-container__table td {
   border-right: 1px solid black;
 }

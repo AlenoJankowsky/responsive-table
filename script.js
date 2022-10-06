@@ -1,23 +1,14 @@
-var contentIsShown = true;
-function hideTableContents() {
-  const firstColumn = document.getElementById('first-column');
-  const allCells = firstColumn.querySelectorAll('td');
-  if (contentIsShown) {
-    for (let cellIterator = 0; cellIterator < allCells.length; cellIterator++) {
-      allCells[cellIterator].style.visibility = 'hidden';
+function hideTableContents(className) {
+  const allCellsInClass = document.getElementsByClassName(className);
+
+  for (let cellIterator = 0; cellIterator < allCellsInClass.length; cellIterator++) {
+    const contentIsVisible = allCellsInClass[cellIterator].style.visibility == '' || allCellsInClass[cellIterator].style.visibility == 'visible';
+
+    if (contentIsVisible) {
+      allCellsInClass[cellIterator].style.visibility = 'hidden';
     }
-
-    contentIsShown = false;
-
-    return;
-  }
-  else if (!contentIsShown) {
-    for (let cellIterator = 0; cellIterator < allCells.length; cellIterator++) {
-      allCells[cellIterator].style.visibility = 'visible';
+    else {
+      allCellsInClass[cellIterator].style.visibility = 'visible';
     }
-
-    contentIsShown = true;
-
-    return;
   }
 }

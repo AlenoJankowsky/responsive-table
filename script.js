@@ -1,14 +1,13 @@
-function hideTableContents(className) {
+function hideColumnContents(className) {
   const allCellsInClass = document.getElementsByClassName(className);
-
-  for (let cellIterator = 0; cellIterator < allCellsInClass.length; cellIterator++) {
-    const contentIsVisible = allCellsInClass[cellIterator].style.visibility == '' || allCellsInClass[cellIterator].style.visibility == 'visible';
+  for (const element of allCellsInClass) {
+    const contentIsVisible = element.style.visibility == '' || element.style.visibility == 'visible';
 
     if (contentIsVisible) {
-      allCellsInClass[cellIterator].style.visibility = 'hidden';
+      element.style.visibility = 'hidden';
     }
     else {
-      allCellsInClass[cellIterator].style.visibility = 'visible';
+      element.style.visibility = 'visible';
     }
   }
 }

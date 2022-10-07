@@ -11,3 +11,10 @@ function hideColumnContents(className) {
     }
   }
 }
+
+function adjustTableWidth(event) {
+  const mousePositionX = event.clientX;
+  const mousePositionY = event.clientY;
+
+  
+}

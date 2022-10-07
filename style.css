@@ -2,7 +2,7 @@ html, body {
   height: 100%;
 }
 
-.body__table-container {
+.table-container {
   overflow-x: auto;
   overflow-y: auto;
 }

@@ -16,27 +16,44 @@ function hideColumnContents(className) {
 
 function cursorIsOverDragArea(className, event) {
   const mousePositionX = event.clientX;
+  const mousePositionY = event.clientY;
   const allCellsInColumn = document.getElementsByClassName(className);
+  const tableCoodinatesTop = document.getElementById('table-id').offsetTop;
+  const tableHeight = document.getElementById('table-id').offsetHeight;
 
   for (const element of allCellsInColumn) {
     const coordinatesOfColumnX = element.offsetLeft;
-    let widthOfColumn = element.offsetWidth;
-    const cursorIsOverDragArea = mousePositionX <= coordinatesOfColumnX + cursorIsOverDragAreaTolerance;
+    const cursorIsOverDragArea = mousePositionX <= coordinatesOfColumnX + cursorIsOverDragAreaTolerance
+                                 && mousePositionY > tableCoodinatesTop 
+                                 && mousePositionY < tableCoodinatesTop + tableHeight;
 
-    if (cursorIsOverDragArea) { 
-      element.style.cursor = "col-resize";
-      element.addEventListener('click', function() {
-        
-      });
+    element.onmouseover = function() {
+      if (cursorIsOverDragArea) { 
+        element.style.cursor = "col-resize";
+      }
+    }
+
+    element.onmousedown = function(event) {
+      for (const element of allCellsInColumn) {
+        element.style.position = 'absolute';
+        const oldMousePositionX = event.clientX;
+        if (cursorIsOverDragArea) { 
+          element.onmousemove = function(event) {
+            const computedXPosition = element.offsetLeft + (event.clientX - oldMousePositionX);
+            const joinedComputedXPosition = computedXPosition + 'px';
+            element.onmouseup = function() {
+              element.style.left = joinedComputedXPosition;
+              element.style.position = 'relative';
+
+              return;
+            }
+          } 
+        }
+      }
     }
 
     if (!cursorIsOverDragArea) {
       element.style.cursor = "default"
     }
   }
-}
-
-function computeNewWidthWithString(widthOfColumn) {
-  widthOfColumn = widthOfColumn + 10;
-
 }

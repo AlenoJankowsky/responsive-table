@@ -27,7 +27,7 @@ html, body {
 
 .table-container__table td, th {
   border: 1px solid black;
-
+  position: relative;
   min-width: 150px;
 }
 
@@ -39,8 +39,4 @@ html, body {
 
 .table-container__table th:hover {
   cursor: pointer;
-}
-
-.table-container__table td:hover {
-  background-color: white;
 }

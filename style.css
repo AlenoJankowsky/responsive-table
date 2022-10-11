@@ -11,10 +11,11 @@ html, body {
 .table-container__table {
   border-collapse: collapse;
   font-size: 18pt;
-  width: 100%;
+  width: 90%;
   height: 150px;
   position: absolute;
   top: 35%;
+  left: 5%;
 }
 
 .table-container__table tr:nth-child(even) {
@@ -28,7 +29,8 @@ html, body {
 .table-container__table td, th {
   border: 1px solid black;
   position: relative;
-  min-width: 150px;
+  min-width: 300px;
+  width: 100%;
 }
 
 .table-container__table th {
@@ -39,4 +41,16 @@ html, body {
 
 .table-container__table th:hover {
   cursor: pointer;
+}
+
+.table__vertical-line {
+  border-right: 2px solid darkred;
+  position: absolute;
+  height: 150px;
+  top: 35%;
+  z-index: 1;
+}
+
+.table__vertical-line:hover {
+  cursor: col-resize;
 }

@@ -7,7 +7,12 @@
     <script src="script.js"></script>
     <title>responsive-table</title>
   </head>
-  <body>
+  <body onload="executeOrder66()" onresize="executeOrder66()">
+    <div id="columnline-one" class="table__vertical-line"></div>
+    <div id="columnline-two"   class="table__vertical-line"></div>
+    <div id="columnline-three" class="table__vertical-line"></div>
+    <div id="columnline-four" class="table__vertical-line"></div>
+    <div id="columnline-five" class="table__vertical-line"></div>
     <div class="table-container">
       <table id="table-id" class="table-container__table">
         <tr>
@@ -15,36 +20,24 @@
           <th class="table__second-header" onclick="hideColumnContents('table__second-column')">barbarbarbar</th>
           <th class="table__third-header" onclick="hideColumnContents('table__third-column')">foo</th>
           <th class="table__fourth-header" onclick="hideColumnContents('table__fourth-column')">bar</th>
-          <th class="table__fifth-header" onclick="hideColumnContents('table__fifth-column')">foo</th>
-          <th class="table__sixth-header" onclick="hideColumnContents('table__sixth-column')">bar</th>
-          <th class="table__seventh-header" onclick="hideColumnContents('table__seventh-column')">foo</th>
-          <th class="table__eighth-header" onclick="hideColumnContents('table__eighth-column')">bar</th>
         </tr>
         <tr>
           <td class="table__first-column" onmousemove="cursorIsOverDragArea('table__first-column', event)">foofofofofo</td>
           <td class="table__second-column" onmousemove="cursorIsOverDragArea('table__second-column', event)">bar</td>
           <td class="table__third-column" onmousemove="cursorIsOverDragArea('table__third-column', event)">foofofofofo</td>
           <td class="table__fourth-column" onmousemove="cursorIsOverDragArea('table__fourth-column', event)">bar</td>
-          <td class="table__fifth-column" onmousemove="cursorIsOverDragArea('table__fifth-column', event)">foofofofofo</td>
-          <td class="table__sixth-column" onmousemove="cursorIsOverDragArea('table__sixth-column', event)">bar</td>
-          <td class="table__seventh-column" onmousemove="cursorIsOverDragArea('table__seventh-column', event)">foofofofofo</td>
-          <td class="table__eighth-column" onmousemove="cursorIsOverDragArea('table__eighth-column', event)">bar</td>
         </tr>
         <tr>
           <td class="table__first-column" onmousemove="cursorIsOverDragArea('table__first-column', event)">foofofofofo</td>
           <td class="table__second-column" onmousemove="cursorIsOverDragArea('table__second-column', event)">bar</td>
           <td class="table__third-column" onmousemove="cursorIsOverDragArea('table__third-column', event)">foofofofofo</td>
           <td class="table__fourth-column" onmousemove="cursorIsOverDragArea('table__fourth-column', event)">bar</td>
-          <td class="table__fifth-column" onmousemove="cursorIsOverDragArea('table__fifth-column', event)">foofofofofo</td>
-          <td class="table__sixth-column" onmousemove="cursorIsOverDragArea('table__sixth-column', event)">bar</td>
         </tr>
         <tr>
           <td class="table__first-column" onmousemove="cursorIsOverDragArea('table__first-column', event)">foofofofofo</td>
           <td class="table__second-column" onmousemove="cursorIsOverDragArea('table__second-column', event)">bar</td>
           <td class="table__third-column" onmousemove="cursorIsOverDragArea('table__third-column', event)">foofofofofo</td>
           <td class="table__fourth-column" onmousemove="cursorIsOverDragArea('table__fourth-column', event)">bar</td>
-          <td class="table__fifth-column" onmousemove="cursorIsOverDragArea('table__fifth-column', event)">foofofofofo</td>
-          <td class="table__sixth-column" onmousemove="cursorIsOverDragArea('table__sixth-column', event)">bar</td>
         </tr>
       </table>
     </div>

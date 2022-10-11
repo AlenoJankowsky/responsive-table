@@ -1,5 +1,69 @@
 var cursorIsOverDragAreaTolerance = 5;
 
+function alignBorderOne(identifier) {
+  const currentBorder = document.getElementById(identifier);
+  const currentColumn = document.getElementsByClassName('table__first-column');
+  const rect = currentColumn[0].getBoundingClientRect();
+  const currentColmnOffSetLeft = rect.left;
+  currentBorder.style.left = currentColmnOffSetLeft + 'px';
+}
+
+function alignBorderTwo(identifier) {
+  const currentBorder = document.getElementById(identifier);
+  const currentColumn = document.getElementsByClassName('table__second-column');
+  const rect = currentColumn[0].getBoundingClientRect();
+  const currentColmnOffSetLeft = rect.left;
+  currentBorder.style.left = currentColmnOffSetLeft + 'px';
+}
+
+function alignBorderThree(identifier) {
+  const currentBorder = document.getElementById(identifier);
+  const currentColumn = document.getElementsByClassName('table__third-column');
+  const rect = currentColumn[0].getBoundingClientRect();
+  const currentColmnOffSetLeft = rect.left;
+  currentBorder.style.left = currentColmnOffSetLeft + 'px';
+}
+
+function alignBorderFour(identifier) {
+  const currentBorder = document.getElementById(identifier);
+  const currentColumn = document.getElementsByClassName('table__fourth-column');
+  const rect = currentColumn[0].getBoundingClientRect();
+  const currentColmnOffSetLeft = rect.left;
+  currentBorder.style.left = currentColmnOffSetLeft + 'px';
+}
+
+function alignBorderFive(identifier) {
+  const currentBorder = document.getElementById(identifier);
+  const currentColumn = document.getElementsByClassName('table__fourth-column');
+  const rect = currentColumn[0].getBoundingClientRect();
+  const currentColumnOffSetRight = rect.left + rect.width;
+  console.log(currentColumnOffSetRight);
+  currentBorder.style.left = currentColumnOffSetRight + 'px';
+}
+
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  }
+  else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+}
+
+function executeOrder66() {
+  addLoadEvent(alignBorderOne('columnline-one'));
+  addLoadEvent(alignBorderTwo('columnline-two'));
+  addLoadEvent(alignBorderThree('columnline-three'));
+  addLoadEvent(alignBorderFour('columnline-four'));
+  addLoadEvent(alignBorderFive('columnline-five'));
+}
+
 function hideColumnContents(className) {
   const allCellsInClass = document.getElementsByClassName(className);
   for (const element of allCellsInClass) {
@@ -26,34 +90,6 @@ function cursorIsOverDragArea(className, event) {
     const cursorIsOverDragArea = mousePositionX <= coordinatesOfColumnX + cursorIsOverDragAreaTolerance
                                  && mousePositionY > tableCoodinatesTop 
                                  && mousePositionY < tableCoodinatesTop + tableHeight;
-
-    element.onmouseover = function() {
-      if (cursorIsOverDragArea) { 
-        element.style.cursor = "col-resize";
-      }
-    }
-
-    element.onmousedown = function(event) {
-      for (const element of allCellsInColumn) {
-        element.style.position = 'absolute';
-        const oldMousePositionX = event.clientX;
-        if (cursorIsOverDragArea) { 
-          element.onmousemove = function(event) {
-            const computedXPosition = element.offsetLeft + (event.clientX - oldMousePositionX);
-            const joinedComputedXPosition = computedXPosition + 'px';
-            element.onmouseup = function() {
-              element.style.left = joinedComputedXPosition;
-              element.style.position = 'relative';
-
-              return;
-            }
-          } 
-        }
-      }
-    }
-
-    if (!cursorIsOverDragArea) {
-      element.style.cursor = "default"
-    }
   }
 }
+

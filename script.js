@@ -37,7 +37,6 @@ function alignBorderFive(identifier) {
   const currentColumn = document.getElementsByClassName('table__fourth-column');
   const rect = currentColumn[0].getBoundingClientRect();
   const currentColumnOffSetRight = rect.left + rect.width;
-  console.log(currentColumnOffSetRight);
   currentBorder.style.left = currentColumnOffSetRight + 'px';
 }
 
@@ -78,18 +77,156 @@ function hideColumnContents(className) {
   }
 }
 
-function cursorIsOverDragArea(className, event) {
-  const mousePositionX = event.clientX;
-  const mousePositionY = event.clientY;
-  const allCellsInColumn = document.getElementsByClassName(className);
-  const tableCoodinatesTop = document.getElementById('table-id').offsetTop;
-  const tableHeight = document.getElementById('table-id').offsetHeight;
+document.addEventListener('DOMContentLoaded', function() {
+  const columnlineOne = document.querySelector('#columnline-one');
+  const columnlineTwo = document.querySelector('#columnline-two');
+  const columnlineThree = document.querySelector('#columnline-three');
+  const columnlineFour = document.querySelector('#columnline-four');
+  const columnlineFive = document.querySelector('#columnline-five');
+  columnlineOne.onmousedown = function(event) {
+    columnlineOne.style.zIndex = 1000;
 
-  for (const element of allCellsInColumn) {
-    const coordinatesOfColumnX = element.offsetLeft;
-    const cursorIsOverDragArea = mousePositionX <= coordinatesOfColumnX + cursorIsOverDragAreaTolerance
-                                 && mousePositionY > tableCoodinatesTop 
-                                 && mousePositionY < tableCoodinatesTop + tableHeight;
+    document.body.append(columnlineOne);
+
+    function moveToMouse(windowCoordinatesX) {
+      const table = document.getElementById('table-id');
+      const newColumnLeft = windowCoordinatesX - columnlineOne.offsetWidth / 2;
+      const newColumnLeftIsInTable = newColumnLeft >= table.offsetLeft;
+
+      if (newColumnLeftIsInTable) {
+        columnlineOne.style.left = windowCoordinatesX - columnlineOne.offsetWidth / 2 + 'px';
+      }
+      else {
+        document.removeEventListener('mousemove', onMouseMove);
+        columnlineOne.onmouseup = null;
+      }
+    }
+
+    moveToMouse(event.clientX);
+
+    function onMouseMove(event) {
+      moveToMouse(event.clientX);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    columnlineOne.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      columnlineOne.onmouseup = null;
+    }
   }
-}
 
+  columnlineTwo.onmousedown = function(event) {
+    columnlineTwo.style.zIndex = 1;
+    oldmousePosition = event.clientX;
+    document.body.append(columnlineTwo);
+
+    function moveToMouse(windowCoordinatesX) {
+      const columnOne = document.getElementsByClassName('table__first-column');
+      const columnTwo = document.getElementsByClassName('table__second-column');
+      const headerOne = document.getElementById('table__first-header');
+      const headerTwo = document.getElementById('table__second-header');
+      const newColumnLeft = windowCoordinatesX - columnlineTwo.offsetWidth / 2;
+      const minWidth = 300;
+      const newColumnLeftIsInWidth = newColumnLeft >= minWidth;
+      
+      columnlineTwo.style.left = windowCoordinatesX - columnlineTwo.offsetWidth / 2 + 'px';
+      
+      for (const element of columnOne) {
+        element.style.width = 600 + 'px';
+      }
+
+      for (const element of columnTwo) {
+        element.style.width = 600 + 'px';
+      }
+
+      headerOne.style.width = 600 + 'px'
+      headerTwo.style.width = 600 + 'px';
+    }
+
+    moveToMouse(event.clientX);
+
+    function onMouseMove(event) {
+      moveToMouse(event.clientX);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    columnlineTwo.onmouseup = function() {
+      const headerOne = document.getElementById('table__first-header');
+      document.removeEventListener('mousemove', onMouseMove);
+      diffMousePosition = oldmousePosition - event.clientX;
+      columnWidth = headerOne.style.width;
+      columnWidth = columnWidth + diffMousePosition;
+      headerOne.style.width = columnWidth + 'px';
+      columnlineTwo.onmouseup = null;
+    }
+  }
+
+  columnlineThree.onmousedown = function(event) {
+    columnlineThree.style.zIndex = 1000;
+    document.body.append(columnlineThree);
+
+    function moveToMouse(windowCoordinatesX) {
+      columnlineThree.style.left = windowCoordinatesX - columnlineThree.offsetWidth / 2 + 'px';
+    }
+
+    moveToMouse(event.clientX);
+
+    function onMouseMove(event) {
+      moveToMouse(event.clientX);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    columnlineThree.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      columnlineThree.onmouseup = null;
+    }
+  }
+
+  columnlineFour.onmousedown = function(event) {
+    columnlineFour.style.zIndex = 1000;
+    document.body.append(columnlineFour);
+
+    function moveToMouse(windowCoordinatesX) {
+      columnlineFour.style.left = windowCoordinatesX - columnlineFour.offsetWidth / 2 + 'px';
+    }
+
+    moveToMouse(event.clientX);
+
+    function onMouseMove(event) {
+      moveToMouse(event.clientX);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    columnlineFour.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      columnlineFour.onmouseup = null;
+    }
+  }
+
+  columnlineFive.onmousedown = function(event) {
+    columnlineFive.style.zIndex = 1000;
+
+    document.body.append(columnlineFive);
+
+    function moveToMouse(windowCoordinatesX) {
+      columnlineFive.style.left = windowCoordinatesX - columnlineFive.offsetWidth / 2 + 'px';
+    }
+
+    moveToMouse(event.clientX);
+
+    function onMouseMove(event) {
+      moveToMouse(event.clientX);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    columnlineFive.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      columnlineFive.onmouseup = null;
+    }
+  }
+});

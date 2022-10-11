@@ -11,7 +11,6 @@ html, body {
 .table-container__table {
   border-collapse: collapse;
   font-size: 18pt;
-  width: 90%;
   height: 150px;
   position: absolute;
   top: 35%;
@@ -30,7 +29,8 @@ html, body {
   border: 1px solid black;
   position: relative;
   min-width: 300px;
-  width: 100%;
+  width: 350px;
+  user-select: none;
 }
 
 .table-container__table th {

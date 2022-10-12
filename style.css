@@ -13,8 +13,8 @@ html, body {
   font-size: 18pt;
   height: 150px;
   position: absolute;
+  width: 100%;
   top: 35%;
-  left: 5%;
 }
 
 .table-container__table tr:nth-child(even) {

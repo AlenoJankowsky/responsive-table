@@ -13,7 +13,7 @@ html, body {
   font-size: 18pt;
   height: 150px;
   position: absolute;
-  width: 100%;
+  width: 90%;
   top: 35%;
 }
 
@@ -26,9 +26,11 @@ html, body {
 }
 
 .table-container__table td, th {
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 0%;
   position: relative;
-  min-width: 300px;
+  min-width: 250px;
   width: 350px;
   user-select: none;
 }

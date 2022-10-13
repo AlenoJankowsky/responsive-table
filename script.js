@@ -1,4 +1,5 @@
 var cursorIsOverDragAreaTolerance = 5;
+var minWidth = 250;
 
 function alignBorderOne(identifier) {
   const currentBorder = document.getElementById(identifier);
@@ -91,23 +92,18 @@ document.addEventListener('DOMContentLoaded', function() {
   var headerTwo = document.getElementById('table__second-header');
   var headerThree = document.getElementById('table__third-header');
   var headerFour = document.getElementById('table__fourth-header');
+  var table = document.getElementById('table-id');
 
   columnlineOne.onmousedown = function(event) {
-    columnlineOne.style.zIndex = 1000;
-
-    document.body.append(columnlineOne);
-
     function moveToMouse(windowCoordinatesX) {
-      const table = document.getElementById('table-id');
-      const newColumnLeft = windowCoordinatesX - columnlineOne.offsetWidth / 2;
-      const newColumnLeftIsInTable = newColumnLeft >= table.offsetLeft;
+      const newColumnlineLeft = windowCoordinatesX;
+      const newColumnLeftIsInTable = newColumnlineLeft >= table.offsetLeft;
 
       if (newColumnLeftIsInTable) {
-        columnlineOne.style.left = windowCoordinatesX - columnlineOne.offsetWidth / 2 + 'px';
+        columnlineOne.style.left = windowCoordinatesX + 'px';
       }
       else {
         document.removeEventListener('mousemove', onMouseMove);
-        columnlineOne.onmouseup = null;
       }
     }
 
@@ -121,19 +117,80 @@ document.addEventListener('DOMContentLoaded', function() {
 
     columnlineOne.onmouseup = function() {
       document.removeEventListener('mousemove', onMouseMove);
-      columnlineOne.onmouseup = null;
     }
   }
 
   columnlineTwo.onmousedown = function(event) {
-    columnlineTwo.style.zIndex = 1;
-
+    var OldColumnlineTwoPosition = columnlineTwo.offsetLeft;
+    var columnOneWidth = headerOne.offsetWidth;
+    var columnTwoWidth = headerTwo.offsetWidth;
+    var columnThreeWidth = headerThree.offsetWidth;
+    var columnFourWidth = headerFour.offsetWidth;
     var oldmousePosition = event.clientX;
 
-    document.body.append(columnlineTwo);
-
     function moveToMouse(windowCoordinatesX) {
-      columnlineTwo.style.left = windowCoordinatesX - columnlineTwo.offsetWidth / 2 + 'px';
+      const newColumnlineLeft = windowCoordinatesX;
+      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= headerOne.offsetLeft + minWidth && newColumnlineLeft <= headerTwo.offsetLeft + headerTwo.offsetWidth - minWidth;
+
+      if (newColumnlineLeftIsInMinWidth) {
+        columnlineTwo.style.left = windowCoordinatesX  + 'px';
+      }
+      else {
+        document.removeEventListener('mousemove', onMouseMove);
+        const diffColumnlineTwo = OldColumnlineTwoPosition - columnlineTwo.offsetLeft;
+
+        let diffIsNegative = diffColumnlineTwo < 0;
+
+        if (diffIsNegative) {
+          columnOneWidth = columnlineTwo.offsetLeft;
+          columnTwoWidth = minWidth;
+          for (const element of columnOne) {
+            element.style.width = columnOneWidth + 'px';
+            
+          }
+
+          headerOne.style.width = columnOneWidth + 'px';
+
+          for (const element of columnTwo) {
+            element.style.width = columnTwoWidth + 'px';
+            
+          }
+
+          headerTwo.style.width = columnTwoWidth + 'px';
+        }
+  
+        if (!diffIsNegative) {
+          columnOneWidth = minWidth;
+          columnTwoWidth = columnTwoWidth + diffColumnlineTwo;
+          for (const element of columnOne) {
+            element.style.width = columnOneWidth + 'px';
+            
+          }
+
+          headerOne.style.width = columnOneWidth + 'px';
+  
+          for (const element of columnTwo) {
+            element.style.width = columnTwoWidth + 'px';
+            
+          }
+
+          headerTwo.style.width = columnTwoWidth + 'px';
+        }
+        
+        for (const element of columnThree) {
+          element.style.width = columnThreeWidth + 'px';
+        }
+
+        headerThree.style.width = columnThreeWidth + 'px';
+  
+        for (const element of columnFour) {
+          element.style.width = columnFourWidth + 'px';
+        }
+
+        headerFour.style.width = columnFourWidth + 'px';
+
+        return;
+      }
     }
 
     moveToMouse(event.clientX);
@@ -148,11 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.removeEventListener('mousemove', onMouseMove);
       const diffMousePosition = oldmousePosition - event.clientX;
 
-      let columnOneWidth = headerOne.offsetWidth;
-      let columnTwoWidth = headerTwo.offsetWidth;
-
-      const diffIsNegative = diffMousePosition < 0;
-      const diffIsPositive = diffMousePosition > 0;
+      let diffIsNegative = diffMousePosition < 0;
 
       if (diffIsNegative) {
         columnOneWidth = columnOneWidth - diffMousePosition;
@@ -160,52 +213,118 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (const element of columnOne) {
           element.style.width = columnOneWidth + 'px';
-          headerOne.style.width = columnOneWidth + 'px';
         }
+        
+        headerOne.style.width = columnOneWidth + 'px';
 
         for (const element of columnTwo) {
           element.style.width = columnTwoWidth + 'px';
-          headerTwo.style.width = columnTwoWidth + 'px';
         }
+
+        headerTwo.style.width = columnTwoWidth + 'px';
       }
 
-      if (diffIsPositive) {
+      if (!diffIsNegative) {
         columnOneWidth = columnOneWidth - diffMousePosition;
         columnTwoWidth = columnTwoWidth + diffMousePosition;
 
         for (const element of columnOne) {
           element.style.width = columnOneWidth + 'px';
-          headerOne.style.width = columnOneWidth + 'px';
         }
+
+        headerOne.style.width = columnOneWidth + 'px';
 
         for (const element of columnTwo) {
           element.style.width = columnTwoWidth + 'px';
-          headerTwo.style.width = columnTwoWidth + 'px';
-          console.log(element.style.right);
         }
+
+        headerTwo.style.width = columnTwoWidth + 'px';
       }
 
       for (const element of columnThree) {
-        element.style.width = 'initial';
-        headerThree.style.width = 'initial';
+        element.style.width = columnThreeWidth + 'px';
       }
+
+      headerThree.style.width = columnThreeWidth + 'px';
 
       for (const element of columnFour) {
-        element.style.width = 'auto';
-        headerFour.style.width = 'auto';
+        element.style.width = columnFourWidth + 'px';
       }
 
-      columnlineTwo.onmouseup = null;
+      headerFour.style.width = columnFourWidth + 'px';
     }
   }
 
   columnlineThree.onmousedown = function(event) {
-    columnlineThree.style.zIndex = 1;
+  var oldColumnlineThreePosition = columnlineThree.offsetLeft;
+    var columnOneWidth = headerOne.offsetWidth;
+    var columnTwoWidth = headerTwo.offsetWidth;
+    var columnThreeWidth = headerThree.offsetWidth;
+    var columnFourWidth = headerFour.offsetWidth;
     var oldmousePosition = event.clientX;
-    document.body.append(columnlineThree);
 
     function moveToMouse(windowCoordinatesX) {
-      columnlineThree.style.left = windowCoordinatesX - columnlineThree.offsetWidth / 2 + 'px';
+      const newColumnlineLeft = windowCoordinatesX;
+      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= headerTwo.offsetLeft + minWidth && newColumnlineLeft <= headerThree.offsetLeft + headerThree.offsetWidth - minWidth;
+
+      if (newColumnlineLeftIsInMinWidth) {
+        columnlineThree.style.left = windowCoordinatesX + 'px';
+      }
+      else {
+        document.removeEventListener('mousemove', onMouseMove);
+        const diffColumnlineThree = oldColumnlineThreePosition - columnlineThree.offsetLeft;
+
+        let diffIsNegative = diffColumnlineThree < 0;
+
+        if (diffIsNegative) {
+          columnTwoWidth = columnlineThree.offsetLeft - headerOne.offsetWidth;
+          columnThreeWidth = minWidth;
+          for (const element of columnTwo) {
+            element.style.width = columnTwoWidth + 'px';
+          }
+
+          headerTwo.style.width = columnTwoWidth + 'px';
+
+          for (const element of columnThree) {
+            element.style.width = columnThreeWidth + 'px';
+            
+          }
+
+          headerThree.style.width = columnThreeWidth + 'px';
+        }
+  
+        if (!diffIsNegative) {
+          columnTwoWidth = minWidth;
+          columnThreeWidth = columnThreeWidth + diffColumnlineThree;
+          for (const element of columnTwo) {
+            element.style.width = columnTwoWidth + 'px';
+            
+          }
+
+          headerTwo.style.width = columnTwoWidth + 'px';
+  
+          for (const element of columnThree) {
+            element.style.width = columnThreeWidth + 'px';
+            
+          }
+
+          headerThree.style.width = columnThreeWidth + 'px';
+        }
+        
+        for (const element of columnOne) {
+          element.style.width = columnOneWidth + 'px';
+        }
+
+        headerOne.style.width = columnOneWidth + 'px';
+  
+        for (const element of columnFour) {
+          element.style.width = columnFourWidth + 'px';
+        }
+
+        headerFour.style.width = columnFourWidth + 'px';
+
+        return;
+      }
     }
 
     moveToMouse(event.clientX);
@@ -220,15 +339,14 @@ document.addEventListener('DOMContentLoaded', function() {
       document.removeEventListener('mousemove', onMouseMove);
       const diffMousePosition = oldmousePosition - event.clientX;
 
-      let columnTwoWidth = headerTwo.offsetWidth;
-      let columnThreeWidth = headerThree.offsetWidth;
+      columnTwoWidth = headerTwo.offsetWidth;
+      columnThreeWidth = headerThree.offsetWidth;
 
       const diffIsNegative = diffMousePosition < 0;
-      const diffIsPositive = diffMousePosition > 0;
 
       if (diffIsNegative) {
         columnTwoWidth = columnTwoWidth - diffMousePosition;
-        columnThreeWidth = columnThreeWidth + diffMousePosition;
+        columnThreeWidth = columnThreeWidth + diffMousePosition; 
 
         for (const element of columnTwo) {
           element.style.width = columnTwoWidth + 'px';
@@ -241,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      if (diffIsPositive) {
+      if (!diffIsNegative) {
         columnTwoWidth = columnTwoWidth - diffMousePosition;
         columnThreeWidth = columnThreeWidth + diffMousePosition;
 
@@ -256,16 +374,88 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      columnlineThree.onmouseup = null;
+      for (const element of columnOne) {
+        element.style.width = columnOneWidth + 'px';
+        headerOne.style.width = columnOneWidth + 'px';
+      }
+
+      for (const element of columnFour) {
+        element.style.width = columnFourWidth + 'px';
+        headerFour.style.width = columnFourWidth + 'px';
+      }
     }
   }
 
   columnlineFour.onmousedown = function(event) {
-    columnlineFour.style.zIndex = 1000;
-    document.body.append(columnlineFour);
+    var oldColumnlineFourPosition = columnlineFour.offsetLeft;
+    var columnOneWidth = headerOne.offsetWidth;
+    var columnTwoWidth = headerTwo.offsetWidth;
+    var columnThreeWidth = headerThree.offsetWidth;
+    var columnFourWidth = headerFour.offsetWidth;
+    var oldmousePosition = event.clientX;
 
     function moveToMouse(windowCoordinatesX) {
-      columnlineFour.style.left = windowCoordinatesX - columnlineFour.offsetWidth / 2 + 'px';
+      const newColumnlineLeft = windowCoordinatesX;
+      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= headerThree.offsetLeft + minWidth && newColumnlineLeft <= headerFour.offsetLeft + headerFour.offsetWidth - minWidth;
+
+      if (newColumnlineLeftIsInMinWidth) {
+        columnlineFour.style.left = windowCoordinatesX  + 'px';
+      }
+      else {
+        document.removeEventListener('mousemove', onMouseMove);
+        const diffColumnlineFour = oldColumnlineFourPosition - columnlineFour.offsetLeft;
+
+        let diffIsNegative = diffColumnlineFour < 0;
+
+        if (diffIsNegative) {
+          columnThreeWidth = columnlineFour.offsetLeft - headerTwo.offsetWidth - headerOne.offsetWidth;
+          columnFourWidth = minWidth;
+          for (const element of columnThree) {
+            element.style.width = columnThreeWidth + 'px';
+          }
+
+          headerThree.style.width = columnThreeWidth + 'px';
+
+          for (const element of columnFour) {
+            element.style.width = columnFourWidth + 'px';
+            
+          }
+
+          headerFour.style.width = columnFourWidth + 'px';
+        }
+  
+        if (!diffIsNegative) {
+          columnThreeWidth = minWidth;
+          columnFourWidth = columnFourWidth + diffColumnlineFour;
+          for (const element of columnThree) {
+            element.style.width = columnThreeWidth + 'px';
+            
+          }
+
+          headerThree.style.width = columnThreeWidth + 'px';
+  
+          for (const element of columnFour) {
+            element.style.width = columnFourWidth + 'px';
+            
+          }
+
+          headerFour.style.width = columnFourWidth + 'px';
+        }
+        
+        for (const element of columnOne) {
+          element.style.width = columnOneWidth + 'px';
+        }
+
+        headerOne.style.width = columnOneWidth + 'px';
+  
+        for (const element of columnTwo) {
+          element.style.width = columnTwoWidth + 'px';
+        }
+
+        headerTwo.style.width = columnTwoWidth + 'px';
+
+        return;
+      }
     }
 
     moveToMouse(event.clientX);
@@ -276,19 +466,73 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('mousemove', onMouseMove);
 
-    columnlineFour.onmouseup = function() {
+    columnlineFour.onmouseup = function(event) {
       document.removeEventListener('mousemove', onMouseMove);
-      columnlineFour.onmouseup = null;
+      const diffMousePosition = oldmousePosition - event.clientX;
+
+      columnThreeWidth = headerThree.offsetWidth;
+      columnFourWidth = headerFour.offsetWidth;
+
+      const diffIsNegative = diffMousePosition < 0;
+      const diffIsPositive = diffMousePosition > 0;
+
+      if (diffIsNegative) {
+        columnThreeWidth = columnThreeWidth - diffMousePosition;
+        columnFourWidth = columnFourWidth + diffMousePosition;
+
+        for (const element of columnThree) {
+          element.style.width = columnThreeWidth + 'px';
+          headerThree.style.width = columnThreeWidth + 'px';
+        }
+
+        for (const element of columnFour) {
+          element.style.width = columnFourWidth + 'px';
+          headerFour.style.width = columnFourWidth + 'px';
+        }
+      }
+
+      if (diffIsPositive) {
+        columnThreeWidth = columnThreeWidth - diffMousePosition;
+        columnFourWidth = columnFourWidth + diffMousePosition;
+
+        for (const element of columnThree) {
+          element.style.width = columnThreeWidth + 'px';
+          headerThree.style.width = columnThreeWidth + 'px';
+        }
+
+        for (const element of columnFour) {
+          element.style.width = columnFourWidth + 'px';
+          headerFour.style.width = columnFourWidth + 'px';
+        }
+      }
+
+      for (const element of columnOne) {
+        element.style.width = columnOneWidth + 'px';
+        headerOne.style.width = columnOneWidth + 'px';
+      }
+
+      for (const element of columnTwo) {
+        element.style.width = columnTwoWidth + 'px';
+        headerTwo.style.width = columnTwoWidth + 'px';
+      }
     }
   }
 
   columnlineFive.onmousedown = function(event) {
-    columnlineFive.style.zIndex = 1000;
+    columnlineFive.style.zIndex = 1;
 
     document.body.append(columnlineFive);
 
     function moveToMouse(windowCoordinatesX) {
-      columnlineFive.style.left = windowCoordinatesX - columnlineFive.offsetWidth / 2 + 'px';
+      const newColumnlineLeft = windowCoordinatesX - columnlineFive.offsetWidth / 2;
+      const newColumnLeftIsInTable = newColumnlineLeft <= table.offsetWidth;
+
+      if (newColumnLeftIsInTable) {
+        columnlineFive.style.left = windowCoordinatesX - columnlineOne.offsetWidth / 2 + 'px';
+      }
+      else {
+        document.removeEventListener('mousemove', onMouseMove);
+      }
     }
 
     moveToMouse(event.clientX);
@@ -301,7 +545,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     columnlineFive.onmouseup = function() {
       document.removeEventListener('mousemove', onMouseMove);
-      columnlineFive.onmouseup = null;
     }
   }
 });

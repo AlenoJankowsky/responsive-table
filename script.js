@@ -1,44 +1,12 @@
 var cursorIsOverDragAreaTolerance = 5;
 var minWidth = 250;
 
-function alignBorderOne(identifier) {
+function alignBorders(identifier, className) {
   const currentBorder = document.getElementById(identifier);
-  const currentColumn = document.getElementsByClassName('table__first-column');
+  const currentColumn = document.getElementsByClassName(className);
   const rect = currentColumn[0].getBoundingClientRect();
   const currentColmnOffSetLeft = rect.left;
   currentBorder.style.left = currentColmnOffSetLeft + 'px';
-}
-
-function alignBorderTwo(identifier) {
-  const currentBorder = document.getElementById(identifier);
-  const currentColumn = document.getElementsByClassName('table__second-column');
-  const rect = currentColumn[0].getBoundingClientRect();
-  const currentColmnOffSetLeft = rect.left;
-  currentBorder.style.left = currentColmnOffSetLeft + 'px';
-}
-
-function alignBorderThree(identifier) {
-  const currentBorder = document.getElementById(identifier);
-  const currentColumn = document.getElementsByClassName('table__third-column');
-  const rect = currentColumn[0].getBoundingClientRect();
-  const currentColmnOffSetLeft = rect.left;
-  currentBorder.style.left = currentColmnOffSetLeft + 'px';
-}
-
-function alignBorderFour(identifier) {
-  const currentBorder = document.getElementById(identifier);
-  const currentColumn = document.getElementsByClassName('table__fourth-column');
-  const rect = currentColumn[0].getBoundingClientRect();
-  const currentColmnOffSetLeft = rect.left;
-  currentBorder.style.left = currentColmnOffSetLeft + 'px';
-}
-
-function alignBorderFive(identifier) {
-  const currentBorder = document.getElementById(identifier);
-  const currentColumn = document.getElementsByClassName('table__fourth-column');
-  const rect = currentColumn[0].getBoundingClientRect();
-  const currentColumnOffSetRight = rect.left + rect.width;
-  currentBorder.style.left = currentColumnOffSetRight + 'px';
 }
 
 function addLoadEvent(func) {
@@ -57,11 +25,11 @@ function addLoadEvent(func) {
 }
 
 function executeOrder66() {
-  addLoadEvent(alignBorderOne('columnline-one'));
-  addLoadEvent(alignBorderTwo('columnline-two'));
-  addLoadEvent(alignBorderThree('columnline-three'));
-  addLoadEvent(alignBorderFour('columnline-four'));
-  addLoadEvent(alignBorderFive('columnline-five'));
+  addLoadEvent(alignBorders('columnline-one', 'table__first-column'));
+  addLoadEvent(alignBorders('columnline-two', 'table__second-column'));
+  addLoadEvent(alignBorders('columnline-three', 'table__third-column'));
+  addLoadEvent(alignBorders('columnline-four', 'table__fourth-column'));
+  addLoadEvent(alignBorders('columnline-five', 'table__fifth-column'));
 }
 
 function hideColumnContents(className) {
@@ -256,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   columnlineThree.onmousedown = function(event) {
-  var oldColumnlineThreePosition = columnlineThree.offsetLeft;
+    var oldColumnlineThreePosition = columnlineThree.offsetLeft;
     var columnOneWidth = headerOne.offsetWidth;
     var columnTwoWidth = headerTwo.offsetWidth;
     var columnThreeWidth = headerThree.offsetWidth;
@@ -519,16 +487,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   columnlineFive.onmousedown = function(event) {
-    columnlineFive.style.zIndex = 1;
-
-    document.body.append(columnlineFive);
 
     function moveToMouse(windowCoordinatesX) {
-      const newColumnlineLeft = windowCoordinatesX - columnlineFive.offsetWidth / 2;
-      const newColumnLeftIsInTable = newColumnlineLeft <= table.offsetWidth;
+      const newColumnlineLeft = windowCoordinatesX;
+      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= headerFour.offsetLeft + minWidth;
 
-      if (newColumnLeftIsInTable) {
-        columnlineFive.style.left = windowCoordinatesX - columnlineOne.offsetWidth / 2 + 'px';
+      if (newColumnlineLeftIsInMinWidth) {
+        columnlineFive.style.left = windowCoordinatesX + 'px';
       }
       else {
         document.removeEventListener('mousemove', onMouseMove);

@@ -46,6 +46,22 @@ function hideColumnContents(className) {
   }
 }
 
+function adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, headerOfFirstColumnToBeAdjusted, headerOfSecondColumnToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth) {
+  for (const element of firstColumnToBeAdjusted) {
+    element.style.width = firstColumnToBeAdjustedWidth + 'px';
+    
+  }
+
+  headerOfFirstColumnToBeAdjusted.style.width = firstColumnToBeAdjustedWidth + 'px';
+
+  for (const element of secondColumnToBeAdjusted) {
+    element.style.width = secondColumnToBeAdjustedWidth + 'px';
+    
+  }
+
+  headerOfSecondColumnToBeAdjusted.style.width = secondColumnToBeAdjustedWidth + 'px';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const columnlineOne = document.querySelector('#columnline-one');
   const columnlineTwo = document.querySelector('#columnline-two');
@@ -112,50 +128,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (diffIsNegative) {
           columnOneWidth = columnlineTwo.offsetLeft;
           columnTwoWidth = minWidth;
-          for (const element of columnOne) {
-            element.style.width = columnOneWidth + 'px';
-            
-          }
 
-          headerOne.style.width = columnOneWidth + 'px';
-
-          for (const element of columnTwo) {
-            element.style.width = columnTwoWidth + 'px';
-            
-          }
-
-          headerTwo.style.width = columnTwoWidth + 'px';
+          adjustWidthOfColumns(columnOne, columnTwo, headerOne, headerTwo, columnOneWidth, columnTwoWidth);
         }
   
         if (!diffIsNegative) {
           columnOneWidth = minWidth;
           columnTwoWidth = columnTwoWidth + diffColumnlineTwo;
-          for (const element of columnOne) {
-            element.style.width = columnOneWidth + 'px';
-            
-          }
-
-          headerOne.style.width = columnOneWidth + 'px';
-  
-          for (const element of columnTwo) {
-            element.style.width = columnTwoWidth + 'px';
-            
-          }
-
-          headerTwo.style.width = columnTwoWidth + 'px';
+          adjustWidthOfColumns(columnOne, columnTwo, headerOne, headerTwo, columnOneWidth, columnTwoWidth);
         }
         
-        for (const element of columnThree) {
-          element.style.width = columnThreeWidth + 'px';
-        }
-
-        headerThree.style.width = columnThreeWidth + 'px';
-  
-        for (const element of columnFour) {
-          element.style.width = columnFourWidth + 'px';
-        }
-
-        headerFour.style.width = columnFourWidth + 'px';
+        
+        adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
 
         return;
       }
@@ -179,47 +163,17 @@ document.addEventListener('DOMContentLoaded', function() {
         columnOneWidth = columnOneWidth - diffMousePosition;
         columnTwoWidth = columnTwoWidth + diffMousePosition;
 
-        for (const element of columnOne) {
-          element.style.width = columnOneWidth + 'px';
-        }
-        
-        headerOne.style.width = columnOneWidth + 'px';
-
-        for (const element of columnTwo) {
-          element.style.width = columnTwoWidth + 'px';
-        }
-
-        headerTwo.style.width = columnTwoWidth + 'px';
+        adjustWidthOfColumns(columnOne, columnTwo, headerOne, headerTwo, columnOneWidth, columnTwoWidth);
       }
 
       if (!diffIsNegative) {
         columnOneWidth = columnOneWidth - diffMousePosition;
         columnTwoWidth = columnTwoWidth + diffMousePosition;
 
-        for (const element of columnOne) {
-          element.style.width = columnOneWidth + 'px';
-        }
-
-        headerOne.style.width = columnOneWidth + 'px';
-
-        for (const element of columnTwo) {
-          element.style.width = columnTwoWidth + 'px';
-        }
-
-        headerTwo.style.width = columnTwoWidth + 'px';
+        adjustWidthOfColumns(columnOne, columnTwo, headerOne, headerTwo, columnOneWidth, columnTwoWidth);
       }
 
-      for (const element of columnThree) {
-        element.style.width = columnThreeWidth + 'px';
-      }
-
-      headerThree.style.width = columnThreeWidth + 'px';
-
-      for (const element of columnFour) {
-        element.style.width = columnFourWidth + 'px';
-      }
-
-      headerFour.style.width = columnFourWidth + 'px';
+      adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
     }
   }
 
@@ -247,49 +201,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (diffIsNegative) {
           columnTwoWidth = columnlineThree.offsetLeft - headerOne.offsetWidth;
           columnThreeWidth = minWidth;
-          for (const element of columnTwo) {
-            element.style.width = columnTwoWidth + 'px';
-          }
-
-          headerTwo.style.width = columnTwoWidth + 'px';
-
-          for (const element of columnThree) {
-            element.style.width = columnThreeWidth + 'px';
-            
-          }
-
-          headerThree.style.width = columnThreeWidth + 'px';
+          adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
         }
   
         if (!diffIsNegative) {
           columnTwoWidth = minWidth;
           columnThreeWidth = columnThreeWidth + diffColumnlineThree;
-          for (const element of columnTwo) {
-            element.style.width = columnTwoWidth + 'px';
-            
-          }
-
-          headerTwo.style.width = columnTwoWidth + 'px';
-  
-          for (const element of columnThree) {
-            element.style.width = columnThreeWidth + 'px';
-            
-          }
-
-          headerThree.style.width = columnThreeWidth + 'px';
+          adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth)
         }
         
-        for (const element of columnOne) {
-          element.style.width = columnOneWidth + 'px';
-        }
-
-        headerOne.style.width = columnOneWidth + 'px';
-  
-        for (const element of columnFour) {
-          element.style.width = columnFourWidth + 'px';
-        }
-
-        headerFour.style.width = columnFourWidth + 'px';
+        adjustWidthOfColumns(columnOne, columnFour, headerOne, headerFour, columnOneWidth, columnFourWidth);
 
         return;
       }
@@ -316,41 +237,17 @@ document.addEventListener('DOMContentLoaded', function() {
         columnTwoWidth = columnTwoWidth - diffMousePosition;
         columnThreeWidth = columnThreeWidth + diffMousePosition; 
 
-        for (const element of columnTwo) {
-          element.style.width = columnTwoWidth + 'px';
-          headerTwo.style.width = columnTwoWidth + 'px';
-        }
-
-        for (const element of columnThree) {
-          element.style.width = columnThreeWidth + 'px';
-          headerThree.style.width = columnThreeWidth + 'px';
-        }
+        adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
       }
 
       if (!diffIsNegative) {
         columnTwoWidth = columnTwoWidth - diffMousePosition;
         columnThreeWidth = columnThreeWidth + diffMousePosition;
 
-        for (const element of columnTwo) {
-          element.style.width = columnTwoWidth + 'px';
-          headerTwo.style.width = columnTwoWidth + 'px';
-        }
-
-        for (const element of columnThree) {
-          element.style.width = columnThreeWidth + 'px';
-          headerThree.style.width = columnThreeWidth + 'px';
-        }
+        adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
       }
 
-      for (const element of columnOne) {
-        element.style.width = columnOneWidth + 'px';
-        headerOne.style.width = columnOneWidth + 'px';
-      }
-
-      for (const element of columnFour) {
-        element.style.width = columnFourWidth + 'px';
-        headerFour.style.width = columnFourWidth + 'px';
-      }
+      adjustWidthOfColumns(columnOne, columnFour, headerOne, headerFour, columnOneWidth, columnFourWidth);
     }
   }
 
@@ -378,49 +275,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (diffIsNegative) {
           columnThreeWidth = columnlineFour.offsetLeft - headerTwo.offsetWidth - headerOne.offsetWidth;
           columnFourWidth = minWidth;
-          for (const element of columnThree) {
-            element.style.width = columnThreeWidth + 'px';
-          }
 
-          headerThree.style.width = columnThreeWidth + 'px';
-
-          for (const element of columnFour) {
-            element.style.width = columnFourWidth + 'px';
-            
-          }
-
-          headerFour.style.width = columnFourWidth + 'px';
+          adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
         }
   
         if (!diffIsNegative) {
           columnThreeWidth = minWidth;
           columnFourWidth = columnFourWidth + diffColumnlineFour;
-          for (const element of columnThree) {
-            element.style.width = columnThreeWidth + 'px';
-            
-          }
 
-          headerThree.style.width = columnThreeWidth + 'px';
-  
-          for (const element of columnFour) {
-            element.style.width = columnFourWidth + 'px';
-            
-          }
-
-          headerFour.style.width = columnFourWidth + 'px';
+          adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
         }
         
-        for (const element of columnOne) {
-          element.style.width = columnOneWidth + 'px';
-        }
-
-        headerOne.style.width = columnOneWidth + 'px';
-  
-        for (const element of columnTwo) {
-          element.style.width = columnTwoWidth + 'px';
-        }
-
-        headerTwo.style.width = columnTwoWidth + 'px';
+        adjustWidthOfColumns(columnOne, columnTwo, headerTwo, headerTwo, columnOneWidth, columnTwoWidth);
 
         return;
       }
@@ -448,41 +314,17 @@ document.addEventListener('DOMContentLoaded', function() {
         columnThreeWidth = columnThreeWidth - diffMousePosition;
         columnFourWidth = columnFourWidth + diffMousePosition;
 
-        for (const element of columnThree) {
-          element.style.width = columnThreeWidth + 'px';
-          headerThree.style.width = columnThreeWidth + 'px';
-        }
-
-        for (const element of columnFour) {
-          element.style.width = columnFourWidth + 'px';
-          headerFour.style.width = columnFourWidth + 'px';
-        }
+        adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
       }
 
       if (diffIsPositive) {
         columnThreeWidth = columnThreeWidth - diffMousePosition;
         columnFourWidth = columnFourWidth + diffMousePosition;
 
-        for (const element of columnThree) {
-          element.style.width = columnThreeWidth + 'px';
-          headerThree.style.width = columnThreeWidth + 'px';
-        }
-
-        for (const element of columnFour) {
-          element.style.width = columnFourWidth + 'px';
-          headerFour.style.width = columnFourWidth + 'px';
-        }
+        adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
       }
 
-      for (const element of columnOne) {
-        element.style.width = columnOneWidth + 'px';
-        headerOne.style.width = columnOneWidth + 'px';
-      }
-
-      for (const element of columnTwo) {
-        element.style.width = columnTwoWidth + 'px';
-        headerTwo.style.width = columnTwoWidth + 'px';
-      }
+      adjustWidthOfColumns(columnOne, columnTwo, headerTwo, headerTwo, columnOneWidth, columnTwoWidth);
     }
   }
 

@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!diffIsNegative) {
           columnTwoWidth = minWidth;
           columnThreeWidth = columnThreeWidth + diffColumnlineThree;
-          adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth)
+          adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
         }
         
         adjustWidthOfColumns(columnOne, columnFour, headerOne, headerFour, columnOneWidth, columnFourWidth);

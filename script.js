@@ -24,7 +24,7 @@ function addLoadEvent(func) {
   }
 }
 
-function executeOrder66() {
+function adjustColumnlinePositions() {
   addLoadEvent(alignBorders('columnline-one', 'table__first-column'));
   addLoadEvent(alignBorders('columnline-two', 'table__second-column'));
   addLoadEvent(alignBorders('columnline-three', 'table__third-column'));

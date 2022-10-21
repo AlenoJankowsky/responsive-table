@@ -68,108 +68,101 @@ function adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted,
   headerOfSecondColumnToBeAdjusted.style.width = secondColumnToBeAdjustedWidth + 'px';
 }
 
-function determineMouseoverColumnline(event, columnlineTwo, columnlineThree, columnlineFour) {
-  const mouseIsOverColumnlineTwo = event.clientX == columnlineTwo.offsetLeft + 5 || event.clientX == columnlineTwo.offsetLeft - 5;
-  const mouseIsOverColumnlineThree = event.clientX == columnlineThree.offsetLeft + 5 || event.clientX == columnlineThree.offsetLeft - 5;
-  const mouseIsOverColumnlineFour = event.clientX == columnlineFour.offsetLeft;
+//function determineMouseoverColumnline(columnlineTwo, columnlineThree, columnlineFour, table) {
+  // document.addEventListener('mousemove', function(event) {
+  //   const mouseIsOverColumnlineTwo = event.clientX == columnlineTwo.offsetLeft + 5 || event.clientX == columnlineTwo.offsetLeft - 5
+  //                                    && event.clientY >= table.offsetTop && event.clientY <= table.offsetTop + table.offsetHeight;
+                                     
+  //   const mouseIsOverColumnlineThree = event.clientX == columnlineThree.offsetLeft + 5 || event.clientX == columnlineThree.offsetLeft - 5;
+  //   const mouseIsOverColumnlineFour = event.clientX == columnlineFour.offsetLeft;
 
-  if (mouseIsOverColumnlineTwo) {
-    console.log("KEK");
-    return 1;
+  //   if (mouseIsOverColumnlineTwo) {
+  //     return columnlineTwo;
+  //   }
+
+  //   if (mouseIsOverColumnlineThree) {
+  //     return columnlineThree;
+  //   }
+
+  //   if (mouseIsOverColumnlineFour) {
+  //     return columnlineFour;
+  //   }
+  // });
+//}
+
+function moveColumnlineToMouse(eventClientX, oldCurrentColumnlinePosition, currentColumnline, firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth) {
+  const newColumnlineLeft = eventClientX;
+  const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= firstHeaderToBeAdjusted.offsetLeft + minWidth && newColumnlineLeft <= seconHeaderToBeAdjusted.offsetLeft + seconHeaderToBeAdjusted.offsetWidth - minWidth;
+
+  if (newColumnlineLeftIsInMinWidth) {
+    currentColumnline.style.left = eventClientX  + 'px';
   }
+  else {
+    var eventlistener = get(window)["DOMContentLoaded"][index];
+    window.removeEventListener("DOMContentLoaded", 
+                           eventlistener.listener,
+                           eventlistener.useCapture);
+    
+    const diffCurrentColumnline = oldCurrentColumnlinePosition - currentColumnline.offsetLeft;
 
-  if (mouseIsOverColumnlineThree) {
-    console.log("KEK");
-    return 2;
-  }
+    let diffIsNegative = diffCurrentColumnline < 0;
 
-  if (mouseIsOverColumnlineFour) {
-    console.log("KEK");
-    return 3;
+    if (diffIsNegative) {
+      firstColumnToBeAdjustedWidth = currentColumnline.offsetLeft;
+      secondColumnToBeAdjustedWidth = minWidth;
+
+      adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
+    }
+
+    if (!diffIsNegative) {
+      firstColumnToBeAdjustedWidth = minWidth;
+      secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffCurrentColumnline;
+      adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
+    }
+    
+    adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
   }
 }
 
 function moveTableColums(event, currentColumnline, firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted) {
-  currentColumnline.onmousedown = function() {
-    var oldCurrentColumnlinePosition = currentColumnline.offsetLeft;
-    var firstColumnToBeAdjustedWidth = firstHeaderToBeAdjusted.offsetWidth;
-    var secondColumnToBeAdjustedWidth = seconHeaderToBeAdjusted.offsetWidth;
-    var firstColumnToNotBeAdjustedWidth = firstHeaderToNotBeAdjusted.offsetWidth;
-    var secondColumnToNotBeAdjustedWidth = secondHeaderToNotBeAdjusted.offsetWidth;
-    var oldmousePosition = event.clientX;
+  var oldCurrentColumnlinePosition = currentColumnline.offsetLeft;
+  var firstColumnToBeAdjustedWidth = firstHeaderToBeAdjusted.offsetWidth;
+  var secondColumnToBeAdjustedWidth = seconHeaderToBeAdjusted.offsetWidth;
+  var firstColumnToNotBeAdjustedWidth = firstHeaderToNotBeAdjusted.offsetWidth;
+  var secondColumnToNotBeAdjustedWidth = secondHeaderToNotBeAdjusted.offsetWidth;
+  var oldmousePosition = event.clientX;
 
-    function moveToMouse(windowCoordinatesX) {
-      const newColumnlineLeft = windowCoordinatesX;
-      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= firstHeaderToBeAdjusted.offsetLeft + minWidth && newColumnlineLeft <= seconHeaderToBeAdjusted.offsetLeft + seconHeaderToBeAdjusted.offsetWidth - minWidth;
+  function onMouseMove(event) {
+    moveColumnlineToMouse(event.clientX, oldCurrentColumnlinePosition, currentColumnline, firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
+  }
 
-      if (newColumnlineLeftIsInMinWidth) {
-        currentColumnline.style.left = windowCoordinatesX  + 'px';
-      }
-      else {
-        document.removeEventListener('mousemove', onMouseMove);
-        const diffCurrentColumnline = oldCurrentColumnlinePosition - currentColumnline.offsetLeft;
+  document.addEventListener('mousemove', onMouseMove);
 
-        let diffIsNegative = diffCurrentColumnline < 0;
+  currentColumnline.onmouseup = function(event) {
+    document.removeEventListener('mousemove', onMouseMove);
+    const diffMousePosition = oldmousePosition - event.clientX;
 
-        if (diffIsNegative) {
-          firstColumnToBeAdjustedWidth = currentColumnline.offsetLeft;
-          secondColumnToBeAdjustedWidth = minWidth;
+    let diffIsNegative = diffMousePosition < 0;
 
-          adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
-        }
+    if (diffIsNegative) {
+      firstColumnToBeAdjustedWidth = firstColumnToBeAdjustedWidth - diffMousePosition;
+      secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffMousePosition;
 
-        if (!diffIsNegative) {
-          firstColumnToBeAdjustedWidth = minWidth;
-          secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffCurrentColumnline;
-          adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
-        }
-        
-        
-        adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
-
-        return;
-      }
+      adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
     }
 
-    moveToMouse(event.clientX);
+    if (!diffIsNegative) {
+      firstColumnToBeAdjustedWidth = firstColumnToBeAdjustedWidth - diffMousePosition;
+      secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffMousePosition;
 
-    function onMouseMove(event) {
-      moveToMouse(event.clientX);
+      adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
     }
 
-    document.addEventListener('mousemove', onMouseMove);
-
-    currentColumnline.onmouseup = function(event) {
-      document.removeEventListener('mousemove', onMouseMove);
-      const diffMousePosition = oldmousePosition - event.clientX;
-
-      let diffIsNegative = diffMousePosition < 0;
-
-      if (diffIsNegative) {
-        firstColumnToBeAdjustedWidth = firstColumnToBeAdjustedWidth - diffMousePosition;
-        secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffMousePosition;
-
-        adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
-      }
-
-      if (!diffIsNegative) {
-        firstColumnToBeAdjustedWidth = firstColumnToBeAdjustedWidth - diffMousePosition;
-        secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffMousePosition;
-
-        adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
-      }
-
-      adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
-    }
+    adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
   }
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
-  const columnlineTwo = document.getElementById('columnline-two');
-  const columnlineThree = document.getElementById('columnline-three');
-  const columnlineFour = document.getElementById('columnline-four');
-  console.log(columnlineTwo.offsetLeft);
-  var currentColumnline = document.addEventListener('mousemove', determineMouseoverColumnline(event, columnlineTwo, columnlineThree, columnlineFour));
+document.addEventListener('DOMContentLoaded', function() {
   var columnOne = document.getElementsByClassName('table__first-column');
   var columnTwo = document.getElementsByClassName('table__second-column');
   var columnThree = document.getElementsByClassName('table__third-column');
@@ -178,164 +171,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
   var headerTwo = document.getElementById('table__second-header');
   var headerThree = document.getElementById('table__third-header');
   var headerFour = document.getElementById('table__fourth-header');
-
-  switch (currentColumnline) {
-    case 1:
-      currentColumnline = columnlineTwo;
-    case 2:
-      currentColumnline = columnlineThree;
-    case 3:
-      currentColumnline = columnlineFour;
+  const columnlineTwo = document.getElementById('columnline-two');
+  const columnlineThree = document.getElementById('columnline-three');
+  const columnlineFour = document.getElementById('columnline-four');
+  
+  columnlineTwo.onmousedown = function(event) {
+    moveTableColums(event, columnlineTwo, columnOne, columnTwo, headerOne, headerTwo, columnThree, columnFour, headerThree, headerFour);
   }
 
-  moveTableColums(currentColumnline, columnOne, columnTwo, headerOne, headerTwo, columnThree, columnFour, headerThree, headerFour);
-
   columnlineThree.onmousedown = function(event) {
-    var oldColumnlineThreePosition = columnlineThree.offsetLeft;
-    var columnOneWidth = headerOne.offsetWidth;
-    var columnTwoWidth = headerTwo.offsetWidth;
-    var columnThreeWidth = headerThree.offsetWidth;
-    var columnFourWidth = headerFour.offsetWidth;
-    var oldmousePosition = event.clientX;
-
-    function moveToMouse(windowCoordinatesX) {
-      const newColumnlineLeft = windowCoordinatesX;
-      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= headerTwo.offsetLeft + minWidth && newColumnlineLeft <= headerThree.offsetLeft + headerThree.offsetWidth - minWidth;
-
-      if (newColumnlineLeftIsInMinWidth) {
-        columnlineThree.style.left = windowCoordinatesX + 'px';
-      }
-      else {
-        document.removeEventListener('mousemove', onMouseMove);
-        const diffColumnlineThree = oldColumnlineThreePosition - columnlineThree.offsetLeft;
-
-        let diffIsNegative = diffColumnlineThree < 0;
-
-        if (diffIsNegative) {
-          columnTwoWidth = columnlineThree.offsetLeft - headerOne.offsetWidth;
-          columnThreeWidth = minWidth;
-          adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
-        }
-
-        if (!diffIsNegative) {
-          columnTwoWidth = minWidth;
-          columnThreeWidth = columnThreeWidth + diffColumnlineThree;
-          adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
-        }
-        
-        adjustWidthOfColumns(columnOne, columnFour, headerOne, headerFour, columnOneWidth, columnFourWidth);
-
-        return;
-      }
-    }
-
-    moveToMouse(event.clientX);
-
-    onMouseMove(event);
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    columnlineThree.onmouseup = function(event) {
-      document.removeEventListener('mousemove', onMouseMove);
-      const diffMousePosition = oldmousePosition - event.clientX;
-
-      columnTwoWidth = headerTwo.offsetWidth;
-      columnThreeWidth = headerThree.offsetWidth;
-
-      const diffIsNegative = diffMousePosition < 0;
-
-      if (diffIsNegative) {
-        columnTwoWidth = columnTwoWidth - diffMousePosition;
-        columnThreeWidth = columnThreeWidth + diffMousePosition; 
-
-        adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
-      }
-
-      if (!diffIsNegative) {
-        columnTwoWidth = columnTwoWidth - diffMousePosition;
-        columnThreeWidth = columnThreeWidth + diffMousePosition;
-
-        adjustWidthOfColumns(columnTwo, columnThree, headerTwo, headerThree, columnTwoWidth, columnThreeWidth);
-      }
-
-      adjustWidthOfColumns(columnOne, columnFour, headerOne, headerFour, columnOneWidth, columnFourWidth);
-    }
+    moveTableColums(event, columnlineThree, columnOne, columnTwo, headerOne, headerTwo, columnThree, columnFour, headerThree, headerFour);
   }
 
   columnlineFour.onmousedown = function(event) {
-    var oldColumnlineFourPosition = columnlineFour.offsetLeft;
-    var columnOneWidth = headerOne.offsetWidth;
-    var columnTwoWidth = headerTwo.offsetWidth;
-    var columnThreeWidth = headerThree.offsetWidth;
-    var columnFourWidth = headerFour.offsetWidth;
-    var oldmousePosition = event.clientX;
-
-    function moveToMouse(windowCoordinatesX) {
-      const newColumnlineLeft = windowCoordinatesX;
-      const newColumnlineLeftIsInMinWidth = newColumnlineLeft >= headerThree.offsetLeft + minWidth && newColumnlineLeft <= headerFour.offsetLeft + headerFour.offsetWidth - minWidth;
-
-      if (newColumnlineLeftIsInMinWidth) {
-        columnlineFour.style.left = windowCoordinatesX  + 'px';
-      }
-      else {
-        document.removeEventListener('mousemove', onMouseMove);
-        const diffColumnlineFour = oldColumnlineFourPosition - columnlineFour.offsetLeft;
-
-        let diffIsNegative = diffColumnlineFour < 0;
-
-        if (diffIsNegative) {
-          columnThreeWidth = columnlineFour.offsetLeft - headerTwo.offsetWidth - headerOne.offsetWidth;
-          columnFourWidth = minWidth;
-
-          adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
-        }
-
-        if (!diffIsNegative) {
-          columnThreeWidth = minWidth;
-          columnFourWidth = columnFourWidth + diffColumnlineFour;
-
-          adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
-        }
-        
-        adjustWidthOfColumns(columnOne, columnTwo, headerTwo, headerTwo, columnOneWidth, columnTwoWidth);
-
-        return;
-      }
-    }
-
-    moveToMouse(event.clientX);
-
-    function onMouseMove(event) {
-      moveToMouse(event.clientX);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    columnlineFour.onmouseup = function(event) {
-      document.removeEventListener('mousemove', onMouseMove);
-      const diffMousePosition = oldmousePosition - event.clientX;
-
-      columnThreeWidth = headerThree.offsetWidth;
-      columnFourWidth = headerFour.offsetWidth;
-
-      const diffIsNegative = diffMousePosition < 0;
-      const diffIsPositive = diffMousePosition > 0;
-
-      if (diffIsNegative) {
-        columnThreeWidth = columnThreeWidth - diffMousePosition;
-        columnFourWidth = columnFourWidth + diffMousePosition;
-
-        adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
-      }
-
-      if (diffIsPositive) {
-        columnThreeWidth = columnThreeWidth - diffMousePosition;
-        columnFourWidth = columnFourWidth + diffMousePosition;
-
-        adjustWidthOfColumns(columnThree, columnFour, headerThree, headerFour, columnThreeWidth, columnFourWidth);
-      }
-
-      adjustWidthOfColumns(columnOne, columnTwo, headerTwo, headerTwo, columnOneWidth, columnTwoWidth);
-    }
+    moveTableColums(event, columnlineFour, columnOne, columnTwo, headerOne, headerTwo, columnThree, columnFour, headerThree, headerFour);
   }
 });

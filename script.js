@@ -66,29 +66,7 @@ function adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted,
   }
 
   headerOfSecondColumnToBeAdjusted.style.width = secondColumnToBeAdjustedWidth + 'px';
-}
-
-//function determineMouseoverColumnline(columnlineTwo, columnlineThree, columnlineFour, table) {
-  // document.addEventListener('mousemove', function(event) {
-  //   const mouseIsOverColumnlineTwo = event.clientX == columnlineTwo.offsetLeft + 5 || event.clientX == columnlineTwo.offsetLeft - 5
-  //                                    && event.clientY >= table.offsetTop && event.clientY <= table.offsetTop + table.offsetHeight;
-                                     
-  //   const mouseIsOverColumnlineThree = event.clientX == columnlineThree.offsetLeft + 5 || event.clientX == columnlineThree.offsetLeft - 5;
-  //   const mouseIsOverColumnlineFour = event.clientX == columnlineFour.offsetLeft;
-
-  //   if (mouseIsOverColumnlineTwo) {
-  //     return columnlineTwo;
-  //   }
-
-  //   if (mouseIsOverColumnlineThree) {
-  //     return columnlineThree;
-  //   }
-
-  //   if (mouseIsOverColumnlineFour) {
-  //     return columnlineFour;
-  //   }
-  // });
-//}  
+} 
 
 function moveTableColums(event, currentColumnline, firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted) {
   var oldCurrentColumnlinePosition = currentColumnline.offsetLeft;
@@ -116,15 +94,21 @@ function moveTableColums(event, currentColumnline, firstColumnToBeAdjusted, seco
         secondColumnToBeAdjustedWidth = minWidth;
 
         adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
+        adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
+
+        return;
       }
 
       if (!diffIsNegative) {
         firstColumnToBeAdjustedWidth = minWidth;
+        
         secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffCurrentColumnline;
         adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
+        adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
+
+        return;
       }
       
-      adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
     }
   }
 

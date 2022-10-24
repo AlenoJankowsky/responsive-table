@@ -142,6 +142,9 @@ function moveTableColums(event, currentColumnline, firstColumnToBeAdjusted, seco
       secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffMousePosition;
 
       adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
+      adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
+
+      return;
     }
 
     if (!diffIsNegative) {
@@ -149,9 +152,10 @@ function moveTableColums(event, currentColumnline, firstColumnToBeAdjusted, seco
       secondColumnToBeAdjustedWidth = secondColumnToBeAdjustedWidth + diffMousePosition;
 
       adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, firstHeaderToBeAdjusted, seconHeaderToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth);
+      adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
+    
+      return;
     }
-
-    adjustWidthOfColumns(firstColumnToNotBeAdjusted, secondColumnToNotBeAdjusted, firstHeaderToNotBeAdjusted, secondHeaderToNotBeAdjusted, firstColumnToNotBeAdjustedWidth, secondColumnToNotBeAdjustedWidth);
   }
 }
 

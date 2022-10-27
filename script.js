@@ -15,28 +15,21 @@ function alignBorders(identifier, className) {
   currentBorder.style.left = currentColumnOffsetLeft + 'px';
 }
 
-function addLoadEvent(func) {
-  var oldonload = window.onload;
-  if (typeof window.onload != 'function') {
-    window.onload = func;
-  }
-  else {
-    window.onload = function() {
-      if (oldonload) {
-        oldonload();
-      }
-      func();
-    }
-  }
-}
+window.addEventListener('load', function() {
+  alignBorders('columnline-one', 'table__first-column');
+  alignBorders('columnline-two', 'table__second-column');
+  alignBorders('columnline-three', 'table__third-column');
+  alignBorders('columnline-four', 'table__fourth-column');
+  alignBorders('columnline-five', 'table__fourth-column');
+});
 
-function adjustColumnlinePositions() {
-  addLoadEvent(alignBorders('columnline-one', 'table__first-column'));
-  addLoadEvent(alignBorders('columnline-two', 'table__second-column'));
-  addLoadEvent(alignBorders('columnline-three', 'table__third-column'));
-  addLoadEvent(alignBorders('columnline-four', 'table__fourth-column'));
-  addLoadEvent(alignBorders('columnline-five', 'table__fourth-column'));
-}
+window.addEventListener('resize', function() {
+  alignBorders('columnline-one', 'table__first-column');
+  alignBorders('columnline-two', 'table__second-column');
+  alignBorders('columnline-three', 'table__third-column');
+  alignBorders('columnline-four', 'table__fourth-column');
+  alignBorders('columnline-five', 'table__fourth-column');
+});
 
 function hideColumnContents(className) {
   const allCellsInClass = document.getElementsByClassName(className);

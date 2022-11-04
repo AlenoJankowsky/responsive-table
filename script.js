@@ -48,14 +48,12 @@ function hideColumnContents(className) {
 function adjustWidthOfColumns(firstColumnToBeAdjusted, secondColumnToBeAdjusted, headerOfFirstColumnToBeAdjusted, headerOfSecondColumnToBeAdjusted, firstColumnToBeAdjustedWidth, secondColumnToBeAdjustedWidth) {
   for (const element of firstColumnToBeAdjusted) {
     element.style.width = firstColumnToBeAdjustedWidth + 'px';
-    
   }
 
   headerOfFirstColumnToBeAdjusted.style.width = firstColumnToBeAdjustedWidth + 'px';
 
   for (const element of secondColumnToBeAdjusted) {
     element.style.width = secondColumnToBeAdjustedWidth + 'px';
-    
   }
 
   headerOfSecondColumnToBeAdjusted.style.width = secondColumnToBeAdjustedWidth + 'px';
